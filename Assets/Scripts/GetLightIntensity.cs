@@ -18,14 +18,14 @@ public class GetLightIntensity : MonoBehaviour
         {
             InputSystem.EnableDevice(lightSensor);
             textLightSensor.text = "LightSensor Sensor: enabled";
-            print("LightSensor Sensor: enabled");
+            // print("LightSensor Sensor: enabled");
             textLightSensor.text = lightSensor.lightLevel.ReadValue().ToString();
-            print("LightSensor Sensor Value: " + textLightSensor.text);
+            // print("LightSensor Sensor Value: " + textLightSensor.text);
         }
         else
         {
             textLightSensor.text = "LightSensor Sensor: null";
-            print("LightSensor Sensor: null");
+            // print("LightSensor Sensor: null");
         }
     }
 }

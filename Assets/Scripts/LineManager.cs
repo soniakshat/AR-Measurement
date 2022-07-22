@@ -21,7 +21,9 @@ public class LineManager : MonoBehaviour
         {
             Vector3 pointA = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
             Vector3 pointB = lineRenderer.GetPosition(lineRenderer.positionCount - 2);
+
             float dist = Vector3.Distance(pointA, pointB);
+
             TMP_Text distText = Instantiate(mText);
             distText.text = dist.ToString() + " cm";
 
@@ -32,7 +34,7 @@ public class LineManager : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(normals, upDirn);
 
             distText.transform.rotation = rotation;
-            distText.transform.position = (pointA + directionVector * 0.5f) + upDirn * 0.2f;
+            distText.transform.position = (pointA + directionVector) + upDirn;
         }
     }
 }
