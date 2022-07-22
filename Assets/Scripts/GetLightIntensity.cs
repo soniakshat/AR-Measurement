@@ -1,21 +1,31 @@
-using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GetLightIntensity : MonoBehaviour
 {
-    public LightSensor ls;
-    public Text txt;
+    LightSensor lightSensor;
+    public Text textLightSensor;
 
     private void Start()
     {
-        InputSystem.EnableDevice(ls);
+        lightSensor = LightSensor.current;
     }
 
     void Update()
     {
-        var LS = ls.lightLevel;
-        print("Light Intensity: "+LS);
-        txt.text = "Light Intensity: " + LS;
+        if (lightSensor != null)
+        {
+            InputSystem.EnableDevice(lightSensor);
+            textLightSensor.text = "LightSensor Sensor: enabled";
+            print("LightSensor Sensor: enabled");
+            textLightSensor.text = lightSensor.lightLevel.ReadValue().ToString();
+            print("LightSensor Sensor Value: " + textLightSensor.text);
+        }
+        else
+        {
+            textLightSensor.text = "LightSensor Sensor: null";
+            print("LightSensor Sensor: null");
+        }
     }
 }

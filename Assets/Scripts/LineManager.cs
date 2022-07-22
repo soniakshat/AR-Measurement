@@ -23,11 +23,11 @@ public class LineManager : MonoBehaviour
             Vector3 pointB = lineRenderer.GetPosition(lineRenderer.positionCount - 2);
             float dist = Vector3.Distance(pointA, pointB);
             TMP_Text distText = Instantiate(mText);
-            distText.text = dist.ToString()+" cm";
+            distText.text = dist.ToString() + " cm";
 
             Vector3 directionVector = (pointB - pointA);
             Vector3 normals = args.placementObject.transform.up;
-            
+
             Vector3 upDirn = Vector3.Cross(directionVector, normals).normalized;
             Quaternion rotation = Quaternion.LookRotation(normals, upDirn);
 
