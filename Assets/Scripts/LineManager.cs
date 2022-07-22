@@ -22,7 +22,8 @@ public class LineManager : MonoBehaviour
             Vector3 pointA = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
             Vector3 pointB = lineRenderer.GetPosition(lineRenderer.positionCount - 2);
 
-            float dist = Vector3.Distance(pointA, pointB);
+            float dist = Mathf.Round(Vector3.Distance(pointA, pointB) * 100);
+            print($"Distance between point {pointA} and {pointB} is {dist} cm");
 
             TMP_Text distText = Instantiate(mText);
             distText.text = dist.ToString() + " cm";
@@ -33,8 +34,8 @@ public class LineManager : MonoBehaviour
             Vector3 upDirn = Vector3.Cross(directionVector, normals).normalized;
             Quaternion rotation = Quaternion.LookRotation(normals, upDirn);
 
-            distText.transform.rotation = rotation;
-            distText.transform.position = (pointA + directionVector) + upDirn;
+            // distText.transform.rotation = rotation;
+            // distText.transform.position = (pointA + directionVector) + upDirn;
         }
     }
 }
