@@ -58,23 +58,22 @@ public class MeasureHeight : MonoBehaviour
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, args.placementObject.transform.position);
         if (lineRenderer.positionCount == 2)
         {
-            lineRenderer.SetPosition(1, lineRenderer.GetPosition(0) + (Vector3.up * 0.2f));
+            lineRenderer.SetPosition(1, lineRenderer.GetPosition(0) + new Vector3(lineRenderer.GetPosition(0).x, lineRenderer.GetPosition(0).y + 0.1f, lineRenderer.GetPosition(0).z));
         }
         else if (lineRenderer.positionCount > 2)
         {
-            GetHeight();
             lineRenderer.positionCount = 2;
         }
     }
 
     public void OnUpButtonPress()
     {
-        lineRenderer.SetPosition(1, Vector3.up * 0.2f);
+        lineRenderer.SetPosition(1, lineRenderer.GetPosition(1) + Vector3.up * 0.1f);
     }
 
     public void OnDownButtonPress()
     {
-        lineRenderer.SetPosition(1, Vector3.down * 0.2f);
+        lineRenderer.SetPosition(1, lineRenderer.GetPosition(1) + Vector3.down * 0.1f);
     }
 
     public void GetHeight()

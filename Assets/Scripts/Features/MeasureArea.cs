@@ -85,6 +85,7 @@ public class MeasureArea : MonoBehaviour
     public void OnMeasureButtonPress()
     {
         print("Measure Button Clicked");
+        print("Current Measurement Unit is: " + _currentUnit);
         distinfo.text = "";
         int totalPoints = lineRenderer.positionCount;
         float proA = 0, proB = 0, area = 0;
@@ -92,7 +93,7 @@ public class MeasureArea : MonoBehaviour
         {
             for (int i = 0; i < totalPoints; i++)
             {
-                if (i == (totalPoints - 1))
+                if (i < (totalPoints))
                 {
                     proA += lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
                     proB += lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
@@ -104,11 +105,10 @@ public class MeasureArea : MonoBehaviour
                 }
             }
 
-            area = Mathf.Abs(proA - proB) / 2;
-            area = Mathf.Round(area);
-            area = (float)Math.Round((decimal)area, 2) * unitConverter * unitConverter;
-            print(area + $"in sq {_currentUnit}");
-            areaText.text = area.ToString() + $"in {_currentUnit}<sup>2</sup>";
+            area = (Mathf.Abs(proA - proB) / 2) * unitConverter * unitConverter;
+            area = (float)Math.Round((decimal)area, 2);
+            print(area + $" in square  {_currentUnit}");
+            areaText.text = area.ToString() + $" in {_currentUnit}<sup>2</sup>";
             AreaPopup.SetActive(true);
         }
         else

@@ -7,7 +7,7 @@ public class SettingsViewManager : MonoBehaviour
 
     private void OnEnable()
     {
-        currentUnit.text = "Current Unit: " + PlayerPrefs.GetString("MeasurementUnit");
+        currentUnit.text = "Current Unit: " + PlayerPrefs.GetString("MeasurementUnit", "m");
     }
 
     public void SetUnits(string unit)

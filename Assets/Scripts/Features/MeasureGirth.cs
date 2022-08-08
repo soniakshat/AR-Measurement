@@ -56,14 +56,10 @@ public class MeasureGirth : MonoBehaviour
     {
         lineRenderer.positionCount++;
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, args.placementObject.transform.position);
-        if (lineRenderer.positionCount == 2)
+        if (lineRenderer.positionCount > 2)
         {
-            lineRenderer.SetPosition(1, lineRenderer.GetPosition(0) + (Vector3.up * 0.2f));
-        }
-        else if (lineRenderer.positionCount > 2)
-        {
-            lineRenderer.positionCount = 2;
             GetGirth();
+            lineRenderer.positionCount = 0;
         }
     }
 
