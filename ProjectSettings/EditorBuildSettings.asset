@@ -4,7 +4,19 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2021891b14b860246861ea8db72db9f3
+  - enabled: 1
+    path: Assets/Scenes/MeasureLeafArea.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/MeasurePlantGirth.unity
+    guid: 54c991d9e928d9b41b28d9f5a1997c24
+  - enabled: 1
+    path: Assets/Scenes/MeasurePlantHeight.unity
+    guid: 19669ab4fb1a8b745868b20943012810
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 4a3f63decd08f1b4781d254011b6ee70, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 544baeae9bd759d46a6c79ef71c670e2, type: 2}
