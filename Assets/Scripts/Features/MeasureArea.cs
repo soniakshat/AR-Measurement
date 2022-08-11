@@ -17,8 +17,7 @@ public class MeasureArea : MonoBehaviour
     private float unitConverter = 1;
 
 
-
-    void Start()
+    private void Start()
     {
         if (AreaPopup.activeSelf)
             AreaPopup.SetActive(false);
@@ -28,34 +27,19 @@ public class MeasureArea : MonoBehaviour
         placementInteractable.objectPlaced.AddListener(DrawLine);
         distinfo.text = "";
 
-        _currentUnit = PlayerPrefs.GetString("MeasurmentUnit");
+        _currentUnit = PlayerPrefs.GetString("MeasurementUnit");
 
-        switch (_currentUnit)
+        unitConverter = _currentUnit switch
         {
-            case "cm":
-                {
-                    unitConverter = 100;
-                    break;
-                }
-            case "in":
-                {
-                    unitConverter = 39.37f;
-                    break;
-                }
-            case "ft":
-                {
-                    unitConverter = 3.2808f;
-                    break;
-                }
-            default:
-                {
-                    unitConverter = 1;
-                    break;
-                }
-        }
+            "m" => 1f,
+            "cm" => 100f,
+            "in" => 39.37f,
+            "ft" => 3.2808f,
+            _ => 1f
+        };
     }
 
-    void DrawLine(ARObjectPlacementEventArgs args)
+    private void DrawLine(ARObjectPlacementEventArgs args)
     {
         lineRenderer.positionCount++;
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, args.placementObject.transform.position);
@@ -93,7 +77,7 @@ public class MeasureArea : MonoBehaviour
         {
             for (int i = 0; i < totalPoints; i++)
             {
-                if (i < (totalPoints))
+                if (i < (totalPoints - 1))
                 {
                     proA += lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
                     proB += lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
@@ -137,6 +121,7 @@ public class MeasureArea : MonoBehaviour
 
     public void OnExitButtonClick()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(AppConstants.MAIN_MENU);
+        SceneManager.UnloadSceneAsync(AppConstants.MEASURE_AREA);
     }
 }

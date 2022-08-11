@@ -1,5 +1,4 @@
 using TMPro;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit.AR;
@@ -17,50 +16,32 @@ public class MeasureGirth : MonoBehaviour
     private float unitConverter = 1;
 
 
-
-    void Start()
+    private void Start()
     {
         if (GirthPopup.activeSelf)
             GirthPopup.SetActive(false);
 
         placementInteractable.objectPlaced.AddListener(DrawLine);
 
-        _currentUnit = PlayerPrefs.GetString("MeasurmentUnit");
+        _currentUnit = PlayerPrefs.GetString("MeasurementUnit");
 
-        switch (_currentUnit)
+        unitConverter = _currentUnit switch
         {
-            case "cm":
-                {
-                    unitConverter = 100;
-                    break;
-                }
-            case "in":
-                {
-                    unitConverter = 39.37f;
-                    break;
-                }
-            case "ft":
-                {
-                    unitConverter = 3.2808f;
-                    break;
-                }
-            default:
-                {
-                    unitConverter = 1;
-                    break;
-                }
-        }
+            "m" => 1f,
+            "cm" => 100,
+            "in" => 39.37f,
+            "ft" => 3.2808f,
+            _ => 1f
+        };
     }
 
-    void DrawLine(ARObjectPlacementEventArgs args)
+    private void DrawLine(ARObjectPlacementEventArgs args)
     {
         lineRenderer.positionCount++;
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, args.placementObject.transform.position);
-        if (lineRenderer.positionCount > 2)
-        {
-            GetGirth();
-            lineRenderer.positionCount = 0;
-        }
+        if (lineRenderer.positionCount <= 2) return;
+        GetGirth();
+        lineRenderer.positionCount = 0;
     }
 
     public void GetGirth()
@@ -78,6 +59,7 @@ public class MeasureGirth : MonoBehaviour
 
     public void OnExitButtonClick()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(AppConstants.MAIN_MENU);
+        SceneManager.UnloadSceneAsync(AppConstants.MEASURE_GIRTH);
     }
 }
