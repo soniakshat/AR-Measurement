@@ -1,8 +1,10 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 
+[RequireComponent(typeof(ARSession))]
 public class MeasureHeight : MonoBehaviour
 {
     public LineRenderer lineRenderer;
@@ -15,10 +17,15 @@ public class MeasureHeight : MonoBehaviour
     private string _currentUnit;
     private float unitConverter = 1;
 
-
+    public ARSession arSession;
+    private void ResetArSession()
+    {
+        arSession.Reset();
+    }
 
     void Start()
     {
+        ResetArSession();
         if (HeightPopup.activeSelf)
             HeightPopup.SetActive(false);
 
@@ -42,7 +49,8 @@ public class MeasureHeight : MonoBehaviour
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, args.placementObject.transform.position);
         if (lineRenderer.positionCount == 2)
         {
-            lineRenderer.SetPosition(1, lineRenderer.GetPosition(0) + new Vector3(lineRenderer.GetPosition(0).x, lineRenderer.GetPosition(0).y + 0.1f, lineRenderer.GetPosition(0).z));
+            var positionOfZERO = lineRenderer.GetPosition(0);
+            lineRenderer.SetPosition(1, positionOfZERO + (Vector3.up * 0.5f));
         }
         else if (lineRenderer.positionCount > 2)
         {

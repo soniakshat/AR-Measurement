@@ -1,7 +1,7 @@
 using TMPro;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 
 public class MeasureArea : MonoBehaviour
@@ -16,9 +16,16 @@ public class MeasureArea : MonoBehaviour
     private string _currentUnit;
     private float unitConverter = 1;
 
+    public ARSession arSession;
+    public void ResetArSession()
+    {
+        arSession.Reset();
+    }
 
     private void Start()
     {
+        ResetArSession();
+
         if (AreaPopup.activeSelf)
             AreaPopup.SetActive(false);
         if (distancePopup.activeSelf)
@@ -70,29 +77,30 @@ public class MeasureArea : MonoBehaviour
     {
         print("Measure Button Clicked");
         print("Current Measurement Unit is: " + _currentUnit);
-        distinfo.text = "";
+        areaText.text = "";
         int totalPoints = lineRenderer.positionCount;
-        float proA = 0, proB = 0, area = 0;
+        float temp = 0, area = 0;
         if (totalPoints > 2)
         {
             for (int i = 0; i < totalPoints; i++)
             {
-                if (i < (totalPoints - 1))
+                if (i != (totalPoints - 1))
                 {
-                    proA += lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
-                    proB += lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
+                    float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(i + 1).z;
+                    float mulB = lineRenderer.GetPosition(i + 1).x * lineRenderer.GetPosition(i).z;
+                    temp = temp + (mulA - mulB);
                 }
                 else
                 {
-                    proA += lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(i + 1).z;
-                    proB += lineRenderer.GetPosition(i + 1).x * lineRenderer.GetPosition(i).z;
+                    float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
+                    float mulB = lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
+                    temp = temp + (mulA - mulB);
                 }
             }
-
-            area = (Mathf.Abs(proA - proB) / 2) * unitConverter * unitConverter;
-            area = (float)Math.Round((decimal)area, 2);
-            print(area + $" in square  {_currentUnit}");
-            areaText.text = area.ToString() + $" in {_currentUnit}<sup>2</sup>";
+            area = Mathf.Abs(temp / 2) * unitConverter * unitConverter;
+            // area = (float)Math.Round((decimal)area, 2);
+            print("Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>");
+            areaText.text = "Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>";
             AreaPopup.SetActive(true);
         }
         else
@@ -112,8 +120,8 @@ public class MeasureArea : MonoBehaviour
             for (int i = 0; i < totalPoints - 1; i++)
             {
                 float dist = Vector3.Distance(lineRenderer.GetPosition(i + 1), lineRenderer.GetPosition(i)) * unitConverter;
-                print($"Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}");
-                distinfo.text += $"\nDistance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}";
+                // print($"=>Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}");
+                distinfo.text += $"\n=>1Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}";
             }
         }
         distancePopup.SetActive(true);

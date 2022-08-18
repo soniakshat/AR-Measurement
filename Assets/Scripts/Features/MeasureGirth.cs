@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.AR;
 
 public class MeasureGirth : MonoBehaviour
@@ -14,10 +15,15 @@ public class MeasureGirth : MonoBehaviour
 
     private string _currentUnit;
     private float unitConverter = 1;
-
+    public ARSession arSession;
+    private void ResetArSession()
+    {
+        arSession.Reset();
+    }
 
     private void Start()
     {
+        ResetArSession();
         if (GirthPopup.activeSelf)
             GirthPopup.SetActive(false);
 
