@@ -71,6 +71,11 @@ public class MeasureArea : MonoBehaviour
             distText.transform.rotation = rotation;
             distText.transform.position = (pointA + directionVector * 0.5f) + upd * 0.2f;
         }
+
+        if (lineRenderer.positionCount == 8)
+        {
+            OnMeasureButtonPress();
+        }
     }
 
     public void OnMeasureButtonPress()
