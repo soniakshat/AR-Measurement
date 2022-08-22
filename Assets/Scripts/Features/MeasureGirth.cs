@@ -52,15 +52,22 @@ public class MeasureGirth : MonoBehaviour
 
     public void GetGirth()
     {
-        girthText.text = "";
-        int totalPoints = lineRenderer.positionCount;
-        if (totalPoints > 1)
+        if (GirthPopup.activeSelf)
         {
-            float dist = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) * unitConverter;
-            print($"Distance between Point-A and Point-B is {dist} {_currentUnit}");
-            girthText.text += $"\nDistance between Point-A and Point-B is {dist} {_currentUnit}";
+            GirthPopup.SetActive(false);
         }
-        GirthPopup.SetActive(true);
+        else
+        {
+            girthText.text = "";
+            int totalPoints = lineRenderer.positionCount;
+            if (totalPoints > 1)
+            {
+                float dist = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) * unitConverter;
+                print($"Distance between Point-A and Point-B is {dist} {_currentUnit}");
+                girthText.text += $"\nDistance between Point-A and Point-B is {dist} {_currentUnit}";
+            }
+            GirthPopup.SetActive(true);
+        }
     }
 
     public void OnExitButtonClick()

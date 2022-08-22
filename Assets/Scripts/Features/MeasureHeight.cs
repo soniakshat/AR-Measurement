@@ -50,7 +50,7 @@ public class MeasureHeight : MonoBehaviour
         if (lineRenderer.positionCount == 2)
         {
             var positionOfZERO = lineRenderer.GetPosition(0);
-            lineRenderer.SetPosition(1, positionOfZERO + (Vector3.up * 0.5f));
+            lineRenderer.SetPosition(1, positionOfZERO + (Vector3.up * 0.1f));
         }
         else if (lineRenderer.positionCount > 2)
         {
@@ -70,15 +70,23 @@ public class MeasureHeight : MonoBehaviour
 
     public void GetHeight()
     {
-        heightText.text = "";
-        int totalPoints = lineRenderer.positionCount;
-        if (totalPoints > 1)
+
+        if (HeightPopup.activeSelf)
         {
-            float dist = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) * unitConverter;
-            print($"Distance between Point-A and Point-B is {dist} {_currentUnit}");
-            heightText.text += $"\nDistance between Point-A and Point-B is {dist} {_currentUnit}";
+            HeightPopup.SetActive(false);
         }
-        HeightPopup.SetActive(true);
+        else
+        {
+            heightText.text = "";
+            int totalPoints = lineRenderer.positionCount;
+            if (totalPoints > 1)
+            {
+                float dist = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) * unitConverter;
+                print($"Distance between Point-A and Point-B is {dist} {_currentUnit}");
+                heightText.text += $"\nDistance between Point-A and Point-B is {dist} {_currentUnit}";
+            }
+            HeightPopup.SetActive(true);
+        }
     }
 
     public void OnExitButtonClick()

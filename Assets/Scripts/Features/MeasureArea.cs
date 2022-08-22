@@ -75,56 +75,71 @@ public class MeasureArea : MonoBehaviour
 
     public void OnMeasureButtonPress()
     {
-        print("Measure Button Clicked");
-        print("Current Measurement Unit is: " + _currentUnit);
-        areaText.text = "";
-        int totalPoints = lineRenderer.positionCount;
-        float temp = 0, area = 0;
-        if (totalPoints > 2)
+        if (AreaPopup.activeSelf)
         {
-            for (int i = 0; i < totalPoints; i++)
-            {
-                if (i != (totalPoints - 1))
-                {
-                    float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(i + 1).z;
-                    float mulB = lineRenderer.GetPosition(i + 1).x * lineRenderer.GetPosition(i).z;
-                    temp = temp + (mulA - mulB);
-                }
-                else
-                {
-                    float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
-                    float mulB = lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
-                    temp = temp + (mulA - mulB);
-                }
-            }
-            area = Mathf.Abs(temp / 2) * unitConverter * unitConverter;
-            // area = (float)Math.Round((decimal)area, 2);
-            print("Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>");
-            areaText.text = "Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>";
-            AreaPopup.SetActive(true);
+            AreaPopup.SetActive(false);
         }
         else
         {
-            print("Invalid Shape to measure Area");
-            areaText.text = "Invalid Shape to measure Area";
-            AreaPopup.SetActive(true);
+            print("Measure Button Clicked");
+            print("Current Measurement Unit is: " + _currentUnit);
+            areaText.text = "";
+            int totalPoints = lineRenderer.positionCount;
+            float temp = 0, area = 0;
+            if (totalPoints > 2)
+            {
+                for (int i = 0; i < totalPoints; i++)
+                {
+                    if (i != (totalPoints - 1))
+                    {
+                        float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(i + 1).z;
+                        float mulB = lineRenderer.GetPosition(i + 1).x * lineRenderer.GetPosition(i).z;
+                        temp = temp + (mulA - mulB);
+                    }
+                    else
+                    {
+                        float mulA = lineRenderer.GetPosition(i).x * lineRenderer.GetPosition(0).z;
+                        float mulB = lineRenderer.GetPosition(0).x * lineRenderer.GetPosition(i).z;
+                        temp = temp + (mulA - mulB);
+                    }
+                }
+                area = Mathf.Abs(temp / 2) * unitConverter * unitConverter;
+                // area = (float)Math.Round((decimal)area, 2);
+                print("Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>");
+                areaText.text = "Total Poly Points: " + totalPoints + "\nArea: " + area.ToString() + $" in {_currentUnit}<sup>2</sup>";
+                AreaPopup.SetActive(true);
+            }
+            else
+            {
+                print("Invalid Shape to measure Area");
+                areaText.text = "Invalid Shape to measure Area";
+                AreaPopup.SetActive(true);
+            }
         }
+
     }
 
     public void GetDistances()
     {
-        distinfo.text = "";
-        int totalPoints = lineRenderer.positionCount;
-        if (totalPoints > 1)
+        if (distancePopup.activeSelf)
         {
-            for (int i = 0; i < totalPoints - 1; i++)
-            {
-                float dist = Vector3.Distance(lineRenderer.GetPosition(i + 1), lineRenderer.GetPosition(i)) * unitConverter;
-                // print($"=>Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}");
-                distinfo.text += $"\n=>1Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}";
-            }
+            distancePopup.SetActive(false);
         }
-        distancePopup.SetActive(true);
+        else
+        {
+            distinfo.text = "";
+            int totalPoints = lineRenderer.positionCount;
+            if (totalPoints > 1)
+            {
+                for (int i = 0; i < totalPoints - 1; i++)
+                {
+                    float dist = Vector3.Distance(lineRenderer.GetPosition(i + 1), lineRenderer.GetPosition(i)) * unitConverter;
+                    // print($"=>Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}");
+                    distinfo.text += $"\n=>1Distance between Point-{i} and Point-{i + 1} is {dist} {_currentUnit}";
+                }
+            }
+            distancePopup.SetActive(true);
+        }
     }
 
     public void OnExitButtonClick()
