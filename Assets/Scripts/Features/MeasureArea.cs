@@ -120,6 +120,8 @@ public class MeasureArea : MonoBehaviour
                 areaText.text = "Invalid Shape to measure Area";
                 AreaPopup.SetActive(true);
             }
+
+            lineRenderer.positionCount = 0;
         }
 
     }
